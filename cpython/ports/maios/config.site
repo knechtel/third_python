@@ -1,0 +1,46 @@
+# Early cross-compilation answers for the i386 bare-metal maiOs target.
+# Pass with CONFIG_SITE=/path/to/this/file when running CPython configure.
+# These values describe unavailable OS services; a target sysroot and a
+# complete feature audit are still required before configure can succeed.
+
+ac_cv_pthread=no
+ac_cv_pthread_is_default=no
+ac_cv_have_pthread_t=no
+ac_cv_file__dev_ptmx=no
+ac_cv_file__dev_ptc=no
+ac_cv_sizeof_time_t=4
+ac_cv_func_getrandom=yes
+
+# CPython's generic clock path calls these interfaces unconditionally. The
+# maiOs implementations may report ENOSYS until the kernel timer is exposed.
+ac_cv_func_clock_gettime=yes
+ac_cv_func_clock_getres=yes
+ac_cv_func_localtime_r=yes
+ac_cv_func_gmtime_r=yes
+
+ac_cv_func_clock_gettime=no
+ac_cv_func_dlopen=no
+ac_cv_func_execv=no
+ac_cv_func_execve=no
+ac_cv_func_fork=no
+ac_cv_func_forkpty=no
+ac_cv_func_gettimeofday=no
+ac_cv_func_mmap=no
+ac_cv_func_mprotect=no
+ac_cv_func_munmap=no
+ac_cv_func_openpty=no
+ac_cv_func_pipe=no
+ac_cv_func_pipe2=no
+ac_cv_func_posix_spawn=no
+ac_cv_func_posix_spawnp=no
+ac_cv_func_setlocale=no
+ac_cv_func_sigaction=no
+ac_cv_func_sigaltstack=no
+ac_cv_func_vfork=no
+
+ac_cv_header_dlfcn_h=no
+ac_cv_header_locale_h=no
+ac_cv_header_pthread_h=no
+ac_cv_header_signal_h=yes
+ac_cv_header_sys_mman_h=no
+ac_cv_header_sys_socket_h=no

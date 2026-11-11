@@ -1,0 +1,13 @@
+# Use as Modules/Setup.local in the CPython build directory.
+*disabled*
+_signal
+faulthandler
+
+*static*
+posix ../ports/maios/maiosposix.c
+maiosfs ../ports/maios/maiosfs.c
+webserver ../ports/maios/webserver.c
+math mathmodule.c
+cmath cmathmodule.c
+_json _json.c
+time ../ports/maios/maios_time.c
