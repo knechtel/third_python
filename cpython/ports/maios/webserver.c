@@ -233,7 +233,9 @@ static PyObject *webserver_serve(PyObject *self, PyObject *args, PyObject *kwarg
     }
 
     for (;;) {
-        if (!net_tcp_accept((uint16_t)port)) continue;
+        int accepted=net_tcp_accept((uint16_t)port);
+        if(accepted<0){net_clear_interrupt();PyErr_SetNone(PyExc_KeyboardInterrupt);return NULL;}
+        if(!accepted)continue;
         char request[HTTP_REQUEST_MAX + HTTP_BODY_MAX + 1];
         size_t used = 0;
         size_t header_length = 0, expected_length = 0;
@@ -242,6 +244,7 @@ static PyObject *webserver_serve(PyObject *self, PyObject *args, PyObject *kwarg
             uint8_t chunk[512];
             uint16_t received = 0;
             int result = net_tcp_receive(chunk, sizeof(chunk), &received);
+            if(result==-2){net_clear_interrupt();(void)net_tcp_close();PyErr_SetNone(PyExc_KeyboardInterrupt);return NULL;}
             if (result <= 0) break;
             for (uint16_t i = 0; i < received && used < sizeof(request) - 1; ++i) {
                 request[used++] = (char)chunk[i];
